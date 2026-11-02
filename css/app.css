@@ -1,4 +1,11 @@
 /* Planya — ambiance Méditerranée (palette reprise de l'appli Saraillon, séjour d'août 2026). */
+/* Polices hébergées avec le site (licence SIL OFL, voir fonts/) : aucune requête vers un service tiers. */
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('../fonts/inter-latin-400-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('../fonts/inter-latin-500-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('../fonts/inter-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('../fonts/inter-latin-700-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Josefin Sans'; font-style: normal; font-weight: 600; font-display: swap; src: url('../fonts/josefin-sans-latin-600-normal.woff2') format('woff2'); }
+@font-face { font-family: 'Josefin Sans'; font-style: normal; font-weight: 700; font-display: swap; src: url('../fonts/josefin-sans-latin-700-normal.woff2') format('woff2'); }
 [hidden] { display: none !important; }
 :root {
   --encre: #0c2f3a;
@@ -273,3 +280,11 @@ textarea { resize: vertical; }
 .qui { margin: 4px 4px 0; }
 .sondage.clos .choix-bouton .jauge { background: rgba(47, 174, 110, .22); }
 .champ-choix { margin-bottom: 8px; }
+
+/* ---------- Pages légales et compte ---------- */
+.texte-legal h1 { font-size: 1.5rem; }
+.texte-legal h2 { font-size: 1.05rem; margin: 20px 0 6px; }
+.texte-legal p, .texte-legal li { line-height: 1.55; }
+.texte-legal ul { padding-left: 20px; margin: 6px 0; }
+.texte-legal a, .pied a, .info a { color: var(--eau); }
+.pied a { color: inherit; }

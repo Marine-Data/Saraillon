@@ -11,8 +11,10 @@ import { ecranVoyage } from './voyage.js';
 import { ecranValise } from './valise.js';
 import { ecranMissions } from './missions.js';
 import { ecranSondages } from './sondages.js';
+import { pageMentions, pageConfidentialite, ecranCompte } from './legal.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
+const lienCompte = document.getElementById('lienCompte');
 
 let session = null;
 let enRecuperation = false; // lien « mot de passe oublié » ouvert
@@ -35,6 +37,7 @@ function ecranConnexion(onglet = 'connexion') {
       <label for="mdp">Mot de passe${inscription ? ' (8 caractères minimum)' : ''}</label>
       <input id="mdp" type="password" autocomplete="${inscription ? 'new-password' : 'current-password'}" minlength="8" required>
       <p class="erreur" role="alert"></p>
+      ${inscription ? '<p class="info">En créant un compte, tu acceptes la <a href="#/confidentialite">politique de confidentialité</a>.</p>' : ''}
       <button class="btn" type="submit">${inscription ? 'Créer mon compte' : 'Se connecter'}</button>
       ${inscription ? '' : '<button class="lien" type="button" id="oubli">Mot de passe oublié ?</button>'}
     </form>`;
@@ -366,9 +369,13 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catc
 // ---------- Navigation ----------
 function router() {
   btnDeconnexion.hidden = !session;
+  lienCompte.hidden = !session;
+  const h = location.hash;
+  if (h === '#/confidentialite') return pageConfidentialite(app, session);
+  if (h === '#/mentions-legales') return pageMentions(app, session);
   if (enRecuperation) return ecranNouveauMotDePasse();
   if (!session) return ecranConnexion();
-  const h = location.hash;
+  if (h === '#/compte') return ecranCompte(app, session);
   const p = h.match(/^#\/sejour\/([0-9a-f-]{36})\/planning$/);
   if (p) return ecranPlanning(app, p[1], session);
   const d = h.match(/^#\/sejour\/([0-9a-f-]{36})\/depenses$/);

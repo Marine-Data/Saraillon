@@ -21,7 +21,7 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 9 | Sondages : votes anonymes (anonymes aussi dans la base) ou visibles, clôture | ✅ |
 | 10 | Défis et jeux : défis, chasse au trésor | à venir |
 | 11 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
-| 12 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
+| 12 | Politique de confidentialité, mentions légales, téléchargement de ses données, suppression de compte | ✅ |
 
 Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 
@@ -35,6 +35,9 @@ Planya est la version publique de « Saraillon » : mêmes fonctions et même es
 - **Suppression en cascade** : supprimer un séjour efface ses membres ; supprimer un compte efface ses appartenances.
 - **Billets privés** : les billets de train ou d'avion sont dans un espace de stockage privé, accessible à la seule personne qui les a déposés ; le groupe ne voit que les horaires. Quitter un séjour efface ses trajets et ses billets.
 - **Hébergement dans l'Union européenne** (Supabase, région Stockholm).
+- **Droits des personnes intégrés** : « Mon compte » permet de télécharger toutes ses données (fichier JSON) et de supprimer son compte. La suppression efface tout ce qui est personnel ; ce qui sert aussi au groupe (dépenses, activités) est anonymisé (« Ancien membre »). Quitter un séjour efface ses traces nominatives dans ce séjour, y compris les missions des autres qui contenaient son prénom.
+- **Fichiers vraiment effacés** : la base note les fichiers à supprimer (billets, photos de missions) et une fonction planifiée les efface toutes les heures ([`supabase/functions/nettoyer-fichiers`](supabase/functions/nettoyer-fichiers/index.ts)).
+- **Aucun service tiers dans le navigateur** : polices et bibliothèque Supabase hébergées avec le site, pas de Google Fonts ni de CDN, aucun traceur.
 - **Aucune donnée personnelle dans ce dépôt.**
 
 Les règles sont décrites dans [`sql/`](sql/) et testées avec plusieurs comptes avant chaque mise en ligne.
