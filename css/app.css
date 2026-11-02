@@ -137,7 +137,6 @@ dialog::backdrop { background: rgba(12, 47, 58, .45); }
 }
 .activite header { display: flex; gap: 12px; align-items: flex-start; }
 .activite header > div { flex: 1; }
-.activite .emoji { font-size: 1.8rem; line-height: 1; }
 .activite h3 { margin: 0; font: 700 1.05rem var(--titre); }
 .meta { margin: 2px 0 0; color: var(--eau); font-size: .9rem; }
 .notes { white-space: pre-line; margin: 10px 0 0; }
@@ -162,12 +161,6 @@ select, textarea {
   background: var(--sable-creux); border: 1px solid var(--bord); border-radius: 12px;
 }
 textarea { resize: vertical; }
-.emojis { display: flex; flex-wrap: wrap; gap: 6px; }
-.emoji-choix {
-  font-size: 1.3rem; width: 42px; height: 42px; border-radius: 10px;
-  border: 1px solid var(--bord); background: var(--sable-creux);
-}
-.emoji-choix[aria-pressed="true"] { border: 2px solid var(--turquoise); background: var(--carte); }
 .case { display: flex; gap: 8px; align-items: center; font-weight: 600; margin-top: 16px; }
 .case input { width: 20px; height: 20px; accent-color: var(--turquoise); }
 .actions-dialogue { display: flex; gap: 10px; }
