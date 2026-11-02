@@ -1,8 +1,10 @@
-# Saraillon
+# Planya
+
+**Organiser ses vacances à plusieurs** — en ligne : https://planya.netlify.app
 
 Application web pour organiser un séjour entre amis : un espace réservé au groupe, où chaque séjour n'est visible que par ses membres.
 
-Le projet est né d'une application faite pour un séjour réel en août 2026 (planning, défis, repas, galerie, messages). Il est en train de devenir une application ouverte à tous, construite par étapes.
+Le projet est né de « Saraillon », une application faite pour un séjour réel en août 2026 (planning, défis, repas, galerie, messages). Il est en train de devenir une application ouverte à tous, construite par étapes.
 
 ## Où en est le projet
 
