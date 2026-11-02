@@ -1,4 +1,4 @@
-// Saraillon — comptes, séjours et invitations.
+// Planya — comptes, séjours et invitations.
 // Toutes les règles d'accès sont dans la base (sql/001_sejours.sql) : l'interface ne fait
 // qu'afficher ce que la base accepte de renvoyer à la personne connectée.
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/+esm';
@@ -54,7 +54,7 @@ const aller = route => { location.hash = route; };
 function ecranConnexion(onglet = 'connexion') {
   const inscription = onglet === 'inscription';
   app.innerHTML = `
-    <h1>Vos séjours entre amis</h1>
+    <h1>Vos vacances, organisées à plusieurs</h1>
     <p class="intro">Planning, défis, repas et souvenirs, dans un espace réservé au groupe.</p>
     <div class="onglets" role="tablist">
       <button role="tab" aria-selected="${!inscription}" data-onglet="connexion">Se connecter</button>
@@ -255,9 +255,9 @@ async function ecranSejour(id) {
 
   app.querySelector('#retour').onclick = () => aller('#/');
   app.querySelector('#partager').onclick = async () => {
-    const texte = `Rejoins le séjour « ${s.nom} » sur Saraillon : ${adresseRetour()} — code d’invitation : ${s.code_invitation}`;
+    const texte = `Rejoins le séjour « ${s.nom} » sur Planya : ${adresseRetour()} — code d’invitation : ${s.code_invitation}`;
     try {
-      if (navigator.share) await navigator.share({ title: 'Saraillon', text: texte });
+      if (navigator.share) await navigator.share({ title: 'Planya', text: texte });
       else { await navigator.clipboard.writeText(texte); toast('Invitation copiée.'); }
     } catch (e) { /* partage annulé */ }
   };

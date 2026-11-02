@@ -1,4 +1,4 @@
--- Saraillon — étape 1 : comptes, séjours, invitations.
+-- Planya (ex-Saraillon) — étape 1 : comptes, séjours, invitations.
 -- Chaque séjour est cloisonné : seules les personnes membres d'un séjour en voient le contenu.
 -- Tables nouvelles, séparées de celles du séjour d'août 2026 (verrouillées, non utilisées ici).
 -- À exécuter une fois dans Supabase (projet saraillon) : SQL Editor > New query > coller > Run.
