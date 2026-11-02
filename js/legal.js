@@ -3,6 +3,8 @@
 import { sb } from './supabase.js';
 import { esc, toast, messageErreur, pendant, aller } from './outils.js';
 import { CONTACT_EMAIL } from './config.js';
+import { TYPES, pushPossible, estInstallee, estIOS, abonnementActuel, activerNotifications, desactiverNotifications,
+  lirePreferences, enregistrerPreference } from './notifications.js';
 
 const MAJ = '2 novembre 2026';
 const contact = () => CONTACT_EMAIL
@@ -60,6 +62,9 @@ export function pageConfidentialite(app, session) {
           vous sont révélées le dernier jour du séjour. Dans un sondage anonyme, personne ne peut savoir ce que vous avez voté.</li>
         <li><strong>Les prestataires techniques</strong>, qui hébergent sans exploiter : Supabase (base de données et fichiers, dans l’Union européenne),
           Netlify (site, États-Unis, adhérent au cadre de protection des données UE–États-Unis) et Brevo (envoi des e-mails de connexion, France).</li>
+        <li><strong>Les notifications</strong>, si vous les activez, passent par le service de notification de votre navigateur
+          (Google, Apple ou Mozilla). Leur contenu est chiffré : ces services ne peuvent pas le lire. Une notification n’est pas conservée
+          une fois envoyée, et vous choisissez dans <a href="#/compte">Mon compte</a> ce que vous recevez.</li>
       </ul>
       <p>Ces règles sont appliquées par la base de données elle-même, pas seulement par l’affichage.</p>
 
@@ -99,6 +104,10 @@ async function mesDonnees(moi) {
     ['missions_secretes', sb.from('missions_secretes').select('sejour_id, jour, type, texte, reponse, faite').eq('user_id', moi)],
     ['votes', sb.from('sondage_votes').select('sejour_id, sondage_id, choix_id, vote_le').eq('user_id', moi)],
     ['sondages_crees', sb.from('sondages').select('sejour_id, question, anonyme, cree_le').eq('cree_par', moi)],
+    ['publications', sb.from('fil_actu').select('sejour_id, texte, cree_le').eq('user_id', moi).eq('type', 'publication')],
+    ['commentaires_fil', sb.from('fil_commentaires').select('sejour_id, texte, cree_le').eq('user_id', moi)],
+    ['reglages_notifications', sb.from('preferences_notifications').select('publications, sondages, activites, depenses, matin').eq('user_id', moi)],
+    ['appareils_notifications', sb.from('abonnements_push').select('cree_le').eq('user_id', moi)],
   ];
   const resultats = await Promise.all(tables.map(([, q]) => q));
   const erreur = resultats.find(r => r.error)?.error;
@@ -114,6 +123,15 @@ export function ecranCompte(app, session) {
     <section class="carte">
       <h2>Adresse e-mail</h2>
       <p>${esc(session.user.email)}</p>
+    </section>
+    <section class="carte" id="carteNotifs">
+      <h2>Notifications</h2>
+      <p class="info" id="etatNotifs">…</p>
+      <button class="btn" id="basculerNotifs" hidden></button>
+      <fieldset class="partage" id="typesNotifs">
+        <legend>Ce que tu reçois</legend>
+        ${TYPES.map(([k, v]) => `<label class="case"><input type="checkbox" data-pref="${k}"> ${v}</label>`).join('')}
+      </fieldset>
     </section>
     <section class="carte">
       <h2>Mes données</h2>
@@ -132,6 +150,7 @@ export function ecranCompte(app, session) {
       <button class="btn danger" type="submit">Supprimer définitivement mon compte</button>
     </form>`;
   app.querySelector('#retour').onclick = () => aller('#/');
+  afficherNotifications(app, moi);
 
   const telecharger = app.querySelector('#telecharger');
   telecharger.onclick = async () => {
@@ -155,11 +174,48 @@ export function ecranCompte(app, session) {
       form.querySelector('.erreur').textContent = 'Écris SUPPRIMER pour confirmer.'; return;
     }
     pendant(form, async () => {
+      await desactiverNotifications().catch(() => {});
       const { error } = await sb.rpc('supprimer_mon_compte');
       if (error) throw error;
       await sb.auth.signOut({ scope: 'local' });
       toast('Ton compte a été supprimé.');
       aller('#/');
     });
+  };
+}
+
+// ---------- Notifications de cet appareil ----------
+async function afficherNotifications(app, moi) {
+  const etat = app.querySelector('#etatNotifs');
+  const bouton = app.querySelector('#basculerNotifs');
+  const prefs = await lirePreferences(moi);
+  app.querySelectorAll('[data-pref]').forEach(c => {
+    c.checked = prefs[c.dataset.pref];
+    c.onchange = async () => {
+      try { await enregistrerPreference(moi, c.dataset.pref, c.checked); }
+      catch (e) { c.checked = !c.checked; toast(messageErreur(e)); }
+    };
+  });
+  if (estIOS() && !estInstallee()) {
+    etat.textContent = 'Sur iPhone, les notifications ne marchent qu’une fois Planya installée sur l’écran d’accueil (bouton « Installer l’appli »).';
+    return;
+  }
+  if (!pushPossible()) { etat.textContent = 'Ce navigateur ne permet pas les notifications.'; return; }
+  const abo = await abonnementActuel().catch(() => null);
+  const actives = !!abo && Notification.permission === 'granted';
+  etat.textContent = actives ? '🔔 Activées sur cet appareil.'
+    : Notification.permission === 'denied' ? 'Bloquées par le navigateur : autorise-les dans ses réglages, puis reviens ici.'
+      : 'Désactivées sur cet appareil.';
+  bouton.hidden = Notification.permission === 'denied' && !actives;
+  bouton.textContent = actives ? 'Désactiver sur cet appareil' : '🔔 Activer les notifications';
+  bouton.className = actives ? 'btn secondaire' : 'btn';
+  bouton.onclick = async () => {
+    bouton.disabled = true;
+    try {
+      if (actives) await desactiverNotifications(); else await activerNotifications();
+      toast(actives ? 'Notifications désactivées sur cet appareil.' : '🔔 Notifications activées !');
+    } catch (e) { toast(messageErreur(e)); }
+    bouton.disabled = false;
+    afficherNotifications(app, moi);
   };
 }

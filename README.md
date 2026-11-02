@@ -21,8 +21,9 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 9 | Sondages : votes anonymes (anonymes aussi dans la base) ou visibles, clôture | ✅ |
 | 10 | Classement général en points (missions, corvées, activités), calculé par la base | ✅ |
 | 11 | Fil d'actu : événements écrits par la base (impossibles à falsifier, sans secret), publications, likes, commentaires | ✅ |
-| 12 | Chat du groupe, messages privés, notifications | à venir |
-| 13 | Politique de confidentialité, mentions légales, téléchargement de ses données, suppression de compte | ✅ |
+| 12 | Notifications sur le téléphone (Web Push), réglables par type | ✅ |
+| 13 | Chat du groupe, messages privés | à venir |
+| 14 | Politique de confidentialité, mentions légales, téléchargement de ses données, suppression de compte | ✅ |
 
 Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 
@@ -38,6 +39,7 @@ Planya est la version publique de « Saraillon » : mêmes fonctions et même es
 - **Hébergement dans l'Union européenne** (Supabase, région Stockholm).
 - **Droits des personnes intégrés** : « Mon compte » permet de télécharger toutes ses données (fichier JSON) et de supprimer son compte. La suppression efface tout ce qui est personnel ; ce qui sert aussi au groupe (dépenses, activités) est anonymisé (« Ancien membre »). Quitter un séjour efface ses traces nominatives dans ce séjour, y compris les missions des autres qui contenaient son prénom.
 - **Fichiers vraiment effacés** : la base note les fichiers à supprimer (billets, photos de missions) et une fonction planifiée les efface toutes les heures ([`supabase/functions/nettoyer-fichiers`](supabase/functions/nettoyer-fichiers/index.ts)).
+- **Notifications sans secret dans le code** : les clés d'envoi (VAPID) sont générées par la fonction d'envoi elle-même et rangées dans le coffre-fort de Supabase (Vault) ; la file d'attente est effacée à l'envoi ; se déconnecter désabonne l'appareil ([`supabase/functions/planya-push`](supabase/functions/planya-push/index.ts)).
 - **Aucun service tiers dans le navigateur** : polices et bibliothèque Supabase hébergées avec le site, pas de Google Fonts ni de CDN, aucun traceur.
 - **Aucune donnée personnelle dans ce dépôt.**
 

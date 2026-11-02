@@ -13,6 +13,7 @@ import { ecranMissions } from './missions.js';
 import { ecranSondages } from './sondages.js';
 import { ecranFil } from './fil.js';
 import { pageMentions, pageConfidentialite, ecranCompte } from './legal.js';
+import { desactiverNotifications } from './notifications.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
 const lienCompte = document.getElementById('lienCompte');
@@ -426,7 +427,8 @@ function router() {
   return ecranMesSejours();
 }
 
-btnDeconnexion.onclick = async () => { await sb.auth.signOut(); aller('#/'); };
+// À la déconnexion, cet appareil cesse de recevoir les notifications du compte.
+btnDeconnexion.onclick = async () => { await desactiverNotifications().catch(() => {}); await sb.auth.signOut(); aller('#/'); };
 window.addEventListener('hashchange', router);
 sb.auth.onAuthStateChange((evenement, s) => {
   session = s;
