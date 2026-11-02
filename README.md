@@ -1,6 +1,6 @@
 # Planya
 
-**Organiser ses vacances à plusieurs** — en ligne : https://planya.netlify.app
+**Organiser ses vacances à plusieurs** — en ligne : https://marine-data.github.io/planya/
 
 Application web pour organiser un séjour entre amis : un espace réservé au groupe, où chaque séjour n'est visible que par ses membres.
 
@@ -50,6 +50,7 @@ Les règles sont décrites dans [`sql/`](sql/) et testées avec plusieurs compte
 - HTML, CSS et JavaScript sans framework, modules ES.
 - [Supabase](https://supabase.com) : authentification par e-mail et mot de passe, base PostgreSQL, règles d'accès.
 - E-mails d'authentification envoyés via un serveur SMTP dédié.
+- Site statique hébergé sur GitHub Pages, sans étape de compilation : le code du dépôt est exactement ce qui tourne en ligne.
 
 ## Lancer en local
 

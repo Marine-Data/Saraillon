@@ -8,7 +8,7 @@ import webpush from 'npm:web-push@3.6.7';
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
 const admin = createClient(Deno.env.get('SUPABASE_URL')!, Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!);
-const SITE = 'https://planya.netlify.app';
+const SITE = 'https://marine-data.github.io/planya/';
 
 async function cles() {
   let { data } = await admin.rpc('push_cles');
