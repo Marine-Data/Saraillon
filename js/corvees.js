@@ -36,7 +36,7 @@ async function charger(sejourId) {
   const [s, m, c, a] = await Promise.all([
     sb.from('sejours').select('id, nom, debut, fin').eq('id', sejourId).maybeSingle(),
     sb.from('sejour_membres').select('user_id, prenom').eq('sejour_id', sejourId).order('rejoint_le'),
-    sb.from('corvees').select('*').eq('sejour_id', sejourId).order('ordre').order('cree_le'),
+    sb.from('liste_corvees').select('*').eq('sejour_id', sejourId).order('ordre').order('cree_le'),
     sb.from('corvee_attributions').select('*').eq('sejour_id', sejourId),
   ]);
   const erreur = s.error || m.error || c.error || a.error;
@@ -130,7 +130,7 @@ export async function ecranCorvees(app, sejourId, session, { garderPosition = fa
   const proposee = app.querySelector('#proposee');
   if (proposee) proposee.onclick = async () => {
     proposee.disabled = true;
-    const { error } = await sb.from('corvees').insert(LISTE_PROPOSEE.map((nom, ordre) => ({ sejour_id: sejourId, nom, ordre })));
+    const { error } = await sb.from('liste_corvees').insert(LISTE_PROPOSEE.map((nom, ordre) => ({ sejour_id: sejourId, nom, ordre })));
     if (error) { proposee.disabled = false; toast(messageErreur(error)); } else recharger();
   };
 
@@ -153,7 +153,7 @@ export async function ecranCorvees(app, sejourId, session, { garderPosition = fa
   app.querySelectorAll('[data-retirer]').forEach(b => b.onclick = async () => {
     const c = corvees.find(x => x.id === b.closest('[data-corvee]').dataset.corvee);
     if (!confirm(`Retirer « ${c.nom} » de la liste ? Ses attributions seront effacées.`)) return;
-    const { error } = await sb.from('corvees').delete().eq('id', c.id);
+    const { error } = await sb.from('liste_corvees').delete().eq('id', c.id);
     if (error) toast(messageErreur(error)); else recharger();
   });
   const form = app.querySelector('#formCorvee');
@@ -163,7 +163,7 @@ export async function ecranCorvees(app, sejourId, session, { garderPosition = fa
     if (!nom) { form.querySelector('.erreur').textContent = 'Écris le nom de la corvée.'; return; }
     pendant(form, async () => {
       const ordre = corvees.reduce((m, c) => Math.max(m, c.ordre), -1) + 1;
-      const { error } = await sb.from('corvees').insert({ sejour_id: sejourId, nom, ordre });
+      const { error } = await sb.from('liste_corvees').insert({ sejour_id: sejourId, nom, ordre });
       if (error) throw error;
       gestionOuverte = true;
       recharger();
