@@ -17,9 +17,10 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 5 | Corvées : liste du groupe, tirage au sort équitable du jour, échanges à la main | ✅ |
 | 6 | Voyage : fiche d'infos du séjour, « qui arrive quand », billets privés | ✅ |
 | 7 | Valise : liste privée remplie avec les « choses à apporter » du planning, plus ses propres objets | ✅ |
-| 8 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
-| 9 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
-| 10 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
+| 8 | Missions secrètes : une mission par jour tirée au sort par la base, révélée à sa cible le dernier jour | ✅ |
+| 9 | Défis et jeux : défis, chasse au trésor, sondages | à venir |
+| 10 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
+| 11 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
 
 Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 
