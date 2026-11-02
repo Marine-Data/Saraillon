@@ -68,9 +68,7 @@ function ecranConnexion(onglet = 'connexion') {
       <p class="erreur" role="alert"></p>
       <button class="btn" type="submit">${inscription ? 'Créer mon compte' : 'Se connecter'}</button>
       ${inscription ? '' : '<button class="lien" type="button" id="oubli">Mot de passe oublié ?</button>'}
-    </form>
-    ${blocInstallation()}`;
-  brancherInstallation();
+    </form>`;
   app.querySelectorAll('[data-onglet]').forEach(b => b.onclick = () => ecranConnexion(b.dataset.onglet));
   const form = app.querySelector('#formAuth');
   form.onsubmit = e => {
@@ -142,9 +140,7 @@ async function ecranMesSejours() {
       </button></li>`).join('')}</ul>`
       : '<p class="vide">Aucun séjour pour l’instant. Crée le premier ou rejoins celui d’un ami avec son code.</p>'}
     <button class="btn" id="creer">Créer un séjour</button>
-    <button class="btn secondaire" id="rejoindre">Rejoindre avec un code</button>
-    ${blocInstallation()}`;
-  brancherInstallation();
+    <button class="btn secondaire" id="rejoindre">Rejoindre avec un code</button>`;
   app.querySelectorAll('[data-id]').forEach(b => b.onclick = () => aller('#/sejour/' + b.dataset.id));
   app.querySelector('#creer').onclick = () => aller('#/creer');
   app.querySelector('#rejoindre').onclick = () => aller('#/rejoindre');
@@ -304,26 +300,79 @@ async function ecranSejour(id) {
   };
 }
 
-// ---------- Installation sur le téléphone ----------
-let invitationInstall = null; // événement Android/Chrome gardé pour plus tard
+// ---------- Installation ----------
+// Le bouton « Installer » est visible sur tous les écrans tant que l'appli n'est pas installée.
+// Si le navigateur propose l'installation directe (Chrome, Edge, Samsung Internet), on l'utilise ;
+// sinon on affiche la marche à suivre adaptée au navigateur détecté.
+let invitationInstall = null;
+const btnInstaller = document.getElementById('installer');
+const dlgInstall = document.getElementById('dlgInstall');
 const dejaInstallee = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
-const surIphone = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); invitationInstall = e; router(); });
-window.addEventListener('appinstalled', () => { invitationInstall = null; toast('Planya est installée sur ton téléphone.'); router(); });
-function blocInstallation() {
-  if (dejaInstallee() || (!invitationInstall && !surIphone())) return '';
-  return `<section class="carte installer">
-    <h2>Installer Planya</h2>
-    <p class="info">Ajoute l’appli sur ton écran d’accueil pour l’ouvrir comme une vraie application.</p>
-    ${invitationInstall ? '<button class="btn" id="installer">Installer l’application</button>'
-      : `<ol class="etapes"><li>Touche le bouton <strong>Partager</strong> de Safari (le carré avec une flèche).</li>
-          <li>Choisis <strong>« Sur l’écran d’accueil »</strong>.</li><li>Touche <strong>Ajouter</strong>.</li></ol>`}
-  </section>`;
+
+function navigateur() {
+  const ua = navigator.userAgent;
+  const ios = /iphone|ipad|ipod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const android = /android/i.test(ua);
+  if (/FBAN|FBAV|Instagram|WhatsApp|Snapchat|Line\/|LinkedInApp|TikTok|Messenger|; wv\)/i.test(ua)) return 'integre';
+  if (ios) return /CriOS|FxiOS|EdgiOS/.test(ua) ? 'ios-autre' : 'ios-safari';
+  if (android) {
+    if (/Firefox/i.test(ua)) return 'android-firefox';
+    if (/SamsungBrowser/i.test(ua)) return 'android-samsung';
+    return 'android-chrome';
+  }
+  if (/Firefox/i.test(ua)) return 'pc-firefox';
+  if (/Safari/i.test(ua) && !/Chrome|Chromium|Edg/i.test(ua)) return 'pc-safari';
+  return 'pc-chrome';
 }
-function brancherInstallation() {
-  const b = app.querySelector('#installer');
-  if (b) b.onclick = async () => { invitationInstall.prompt(); await invitationInstall.userChoice; invitationInstall = null; router(); };
+
+const ETAPES = {
+  'ios-safari': ['Touche le bouton <strong>Partager</strong> (le carré avec une flèche vers le haut), en bas de l’écran.',
+    'Descends et choisis <strong>« Sur l’écran d’accueil »</strong>.', 'Touche <strong>Ajouter</strong>.'],
+  'ios-autre': ['Touche le bouton <strong>Partager</strong> (le carré avec une flèche), dans la barre d’adresse ou le menu.',
+    'Choisis <strong>« Sur l’écran d’accueil »</strong>.', 'Touche <strong>Ajouter</strong>. Si l’option n’existe pas, ouvre Planya dans <strong>Safari</strong>.'],
+  'android-chrome': ['Touche le menu <strong>⋮</strong> en haut à droite.',
+    'Choisis <strong>« Installer l’application »</strong> ou <strong>« Ajouter à l’écran d’accueil »</strong>.',
+    'Si tu ne vois ni l’un ni l’autre, choisis d’abord <strong>« Ouvrir dans Chrome »</strong>, puis recommence.'],
+  'android-firefox': ['Touche le menu <strong>⋮</strong> (en haut ou en bas à droite).',
+    'Choisis <strong>« Ajouter à l’écran d’accueil »</strong> ou <strong>« Installer »</strong>.', 'Confirme.'],
+  'android-samsung': ['Touche le menu <strong>≡</strong> en bas à droite.',
+    'Choisis <strong>« Ajouter la page à »</strong>, puis <strong>« Écran d’accueil »</strong>.', 'Confirme.'],
+  'integre': ['Tu es dans le navigateur intégré d’une autre appli, qui ne permet pas d’installer.',
+    'Ouvre le menu (<strong>⋮</strong> ou <strong>…</strong>) et choisis <strong>« Ouvrir dans le navigateur »</strong>, ou copie le lien ci-dessous.',
+    'Dans ton navigateur, touche à nouveau <strong>Installer</strong>.'],
+  'pc-chrome': ['Clique sur l’icône d’installation (un écran avec une flèche) à droite de la barre d’adresse.',
+    'Ou ouvre le menu <strong>⋮</strong>, puis <strong>« Installer Planya »</strong>.'],
+  'pc-safari': ['Ouvre le menu <strong>Fichier</strong>, puis <strong>« Ajouter au Dock »</strong>.'],
+  'pc-firefox': ['Firefox sur ordinateur ne permet pas d’installer d’application web.',
+    'Ouvre Planya dans <strong>Chrome</strong> ou <strong>Edge</strong> pour l’installer, ou garde simplement ce lien en favori.'],
+};
+
+function afficherInstallation() {
+  btnInstaller.hidden = dejaInstallee();
 }
+function ouvrirInstructions() {
+  const nav = navigateur();
+  dlgInstall.querySelector('#etapesInstall').innerHTML = ETAPES[nav].map(e => `<li>${e}</li>`).join('');
+  dlgInstall.querySelector('#copierLien').hidden = nav !== 'integre';
+  dlgInstall.showModal();
+}
+btnInstaller.onclick = async () => {
+  if (invitationInstall) {
+    invitationInstall.prompt();
+    await invitationInstall.userChoice;
+    invitationInstall = null;
+    afficherInstallation();
+  } else ouvrirInstructions();
+};
+dlgInstall.querySelector('#fermerInstall').onclick = () => dlgInstall.close();
+dlgInstall.querySelector('#copierLien').onclick = async () => {
+  try { await navigator.clipboard.writeText(adresseRetour()); toast('Lien copié : colle-le dans ton navigateur.'); }
+  catch (e) { toast(adresseRetour()); }
+};
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); invitationInstall = e; afficherInstallation(); });
+window.addEventListener('appinstalled', () => { invitationInstall = null; afficherInstallation(); toast('Planya est installée.'); });
+matchMedia('(display-mode: standalone)').addEventListener?.('change', afficherInstallation);
+afficherInstallation();
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
 // ---------- Navigation ----------

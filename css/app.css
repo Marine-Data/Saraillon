@@ -1,4 +1,5 @@
 /* Planya — ambiance Méditerranée (palette reprise de l'appli Saraillon, séjour d'août 2026). */
+[hidden] { display: none !important; }
 :root {
   --encre: #0c2f3a;
   --eau: #0e7a90;
@@ -101,6 +102,16 @@ button { font: inherit; cursor: pointer; }
   box-shadow: var(--ombre-forte); max-width: calc(100% - 32px); font-weight: 600;
 }
 
-.installer { margin-top: 20px; }
 .etapes { margin: 8px 0 0; padding-left: 20px; }
 .etapes li { margin: 4px 0; }
+
+.actions-entete { display: flex; align-items: center; gap: 12px; }
+.btn-installer {
+  border: 0; border-radius: 999px; padding: 8px 14px; font-weight: 700; font-size: .9rem;
+  background: var(--soleil); color: #0c2f3a; box-shadow: var(--ombre);
+}
+dialog {
+  border: 0; border-radius: var(--rayon); padding: 22px; width: min(92vw, 440px);
+  background: var(--carte); color: var(--encre); box-shadow: var(--ombre-forte);
+}
+dialog::backdrop { background: rgba(12, 47, 58, .45); }
