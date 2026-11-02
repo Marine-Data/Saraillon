@@ -225,3 +225,16 @@ textarea { resize: vertical; }
 .depliable[open] > summary { margin-bottom: 8px; }
 .resultat-tirage { margin-top: 12px; }
 .resultat-tirage strong { color: var(--eau); }
+
+/* ---------- Voyage ---------- */
+.fiche { margin: 0; }
+.fiche dt { font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--eau); font-weight: 700; margin-top: 12px; }
+.fiche dd { margin: 2px 0 0; white-space: pre-line; overflow-wrap: anywhere; }
+.fiche a, .liste a { color: var(--eau); }
+.trajet { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--bord); }
+.trajet:last-child { border-bottom: 0; }
+.trajet .quand { min-width: 72px; display: flex; flex-direction: column; color: var(--eau); }
+.mon-trajet { border: 0; padding: 0; margin: 14px 0 0; }
+.mon-trajet legend { font: 700 1.05rem var(--titre); padding: 0; }
+.mon-trajet .info { margin: 2px 0 0; }
+.depot { text-align: center; cursor: pointer; }

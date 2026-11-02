@@ -1,6 +1,6 @@
 // Service worker Planya : permet d'installer l'appli et d'ouvrir l'écran même hors ligne.
 // Seuls les fichiers de l'appli sont mis en cache ; les données (Supabase) ne le sont jamais.
-const CACHE = 'planya-v7';
+const CACHE = 'planya-v8';
 const FICHIERS = ['./', './index.html', './css/app.css', './js/app.js', './js/config.js', './manifest.webmanifest', './icon-192.png'];
 
 self.addEventListener('install', e => {
