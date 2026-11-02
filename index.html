@@ -20,7 +20,6 @@
   <header class="entete">
     <div class="marque"><span class="soleil" aria-hidden="true">☀</span> Planya</div>
     <div class="actions-entete">
-      <button class="btn-installer" id="installer" hidden>⬇ Installer</button>
       <button class="lien" id="deconnexion" hidden>Se déconnecter</button>
     </div>
   </header>
@@ -31,6 +30,10 @@
     <button class="btn secondaire" id="copierLien" hidden>Copier le lien de Planya</button>
     <button class="btn" id="fermerInstall">J’ai compris</button>
   </dialog>
+  <div class="barre-appli" id="barreAppli" hidden>
+    <button class="btn" id="installer">📲 Installer l’appli</button>
+    <p class="astuce">Ajoute Planya à ton écran d’accueil : elle s’ouvrira comme une vraie appli, avec son icône ☀.</p>
+  </div>
   <main id="app" aria-live="polite">
     <p class="chargement">Chargement…</p>
   </main>
