@@ -296,3 +296,25 @@ textarea { resize: vertical; }
 .classement .rang { display: inline-block; min-width: 24px; text-align: center; font-weight: 700; color: var(--eau); }
 .classement .moi strong { color: var(--corail); }
 .classement strong { white-space: nowrap; }
+
+/* ---------- Fil d'actu ---------- */
+.fil { margin-top: 4px; }
+.entree {
+  display: flex; gap: 12px; background: var(--carte); border: 1px solid var(--bord); border-radius: var(--rayon);
+  padding: 14px; margin-bottom: 12px; box-shadow: var(--ombre);
+}
+.entree.evenement { background: var(--sable); box-shadow: none; }
+.avatar {
+  flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center;
+  background: var(--eau); color: #fff; font: 700 1.05rem var(--titre);
+}
+.entree.evenement .avatar { background: var(--sable-creux); font-size: 1.2rem; }
+.entree-corps { flex: 1; min-width: 0; }
+.entree-tete { display: flex; align-items: baseline; gap: 8px; margin: 0; flex-wrap: wrap; }
+.entree-tete .danger-lien { margin-left: auto; }
+.entree-texte { margin: 4px 0; white-space: pre-line; overflow-wrap: anywhere; }
+.entree-actions { display: flex; gap: 8px; margin-top: 6px; }
+.reaction { border: 1px solid var(--bord); background: var(--sable-creux); color: var(--encre); border-radius: 999px; padding: 4px 12px; font-size: .9rem; }
+.reaction.actif { border-color: var(--corail); }
+.entree-commentaires { margin-top: 8px; }
+.onglets button { white-space: nowrap; }

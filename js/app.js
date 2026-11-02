@@ -11,6 +11,7 @@ import { ecranVoyage } from './voyage.js';
 import { ecranValise } from './valise.js';
 import { ecranMissions } from './missions.js';
 import { ecranSondages } from './sondages.js';
+import { ecranFil } from './fil.js';
 import { pageMentions, pageConfidentialite, ecranCompte } from './legal.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
@@ -241,6 +242,7 @@ async function ecranSejour(id) {
 
     <section class="carte">
       <h2>Le séjour</h2>
+      <button class="btn" id="ouvrirFil">📰 Fil d’actu</button>
       <button class="btn" id="ouvrirPlanning">🗓️ Planning</button>
       <button class="btn" id="ouvrirDepenses">💰 Dépenses</button>
       <button class="btn" id="ouvrirCourses">🛒 Courses</button>
@@ -249,7 +251,7 @@ async function ecranSejour(id) {
       <button class="btn" id="ouvrirValise">🎒 Ma valise</button>
       <button class="btn" id="ouvrirMissions">🕵️ Missions secrètes</button>
       <button class="btn" id="ouvrirSondages">🗳️ Sondages</button>
-      <p class="info">Bientôt : chasse au trésor, chat et souvenirs.</p>
+      <p class="info">Bientôt : chat du groupe, messages privés, notifications et chasse au trésor.</p>
     </section>
 
     ${orga ? '<button class="btn danger" id="supprimer">Supprimer le séjour</button>'
@@ -257,6 +259,7 @@ async function ecranSejour(id) {
 
   app.querySelector('#retour').onclick = () => aller('#/');
   app.querySelector('#ouvrirPlanning').onclick = () => aller('#/sejour/' + id + '/planning');
+  app.querySelector('#ouvrirFil').onclick = () => aller('#/sejour/' + id + '/fil');
   app.querySelector('#ouvrirDepenses').onclick = () => aller('#/sejour/' + id + '/depenses');
   app.querySelector('#ouvrirCourses').onclick = () => aller('#/sejour/' + id + '/courses');
   app.querySelector('#ouvrirCorvees').onclick = () => aller('#/sejour/' + id + '/corvees');
@@ -414,6 +417,8 @@ function router() {
   if (x) return ecranMissions(app, x[1], session);
   const z = h.match(/^#\/sejour\/([0-9a-f-]{36})\/sondages$/);
   if (z) return ecranSondages(app, z[1], session);
+  const f = h.match(/^#\/sejour\/([0-9a-f-]{36})\/fil$/);
+  if (f) return ecranFil(app, f[1], session);
   const m = h.match(/^#\/sejour\/([0-9a-f-]{36})$/);
   if (m) return ecranSejour(m[1]);
   if (h === '#/creer') return ecranCreer();
