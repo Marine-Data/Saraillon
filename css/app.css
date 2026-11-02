@@ -255,3 +255,21 @@ textarea { resize: vertical; }
 .revelation:last-child { border-bottom: 0; }
 .revelation p { margin: 2px 0; }
 .revelation img { display: block; max-width: 100%; border-radius: 12px; margin-top: 8px; }
+
+/* ---------- Sondages ---------- */
+.sondages { margin-top: 16px; }
+.sondage h2 { margin-bottom: 4px; }
+.choix li { margin: 8px 0; }
+.choix-bouton {
+  position: relative; overflow: hidden; width: 100%; display: flex; justify-content: space-between; gap: 10px;
+  padding: 11px 12px; border-radius: 12px; border: 1px solid var(--bord); background: var(--sable-creux);
+  color: var(--encre); text-align: left;
+}
+.choix-bouton:disabled { cursor: default; }
+.choix-bouton.mien { border: 2px solid var(--turquoise); }
+.choix-bouton .jauge { position: absolute; inset: 0 auto 0 0; background: rgba(31, 182, 201, .22); transition: width .4s ease; }
+.choix-texte, .choix-total { position: relative; }
+.choix-total { font-weight: 700; color: var(--eau); white-space: nowrap; }
+.qui { margin: 4px 4px 0; }
+.sondage.clos .choix-bouton .jauge { background: rgba(47, 174, 110, .22); }
+.champ-choix { margin-bottom: 8px; }
