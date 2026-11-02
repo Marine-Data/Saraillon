@@ -13,10 +13,11 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 1 | Comptes, création de séjour, invitation par code, membres | ✅ |
 | 2 | Planning : activités jour par jour, choses à apporter, inscriptions, commentaires | ✅ |
 | 3 | Dépenses partagées : parts égales ou montants libres, soldes, remboursements | ✅ |
-| 4 | Vie pratique : courses, repas, corvées, valise, infos voyage | à venir |
-| 5 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
-| 6 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
-| 7 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
+| 4 | Courses : liste partagée, rattachée aux repas du planning, « Je m'en occupe » | ✅ |
+| 5 | Vie pratique : corvées, valise, infos voyage | à venir |
+| 6 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
+| 7 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
+| 8 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
 
 Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 

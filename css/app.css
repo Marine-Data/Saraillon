@@ -192,3 +192,18 @@ textarea { resize: vertical; }
 .partage[data-mode="egal"] .part-libre { display: none; }
 .partage[data-mode="libre"] .part-egale, .partage[data-mode="libre"] .case-part input { display: none; }
 #dlgDepense { max-height: 90vh; overflow-y: auto; }
+
+/* ---------- Courses ---------- */
+.entete-section { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 8px; }
+.groupe { font: 700 .95rem var(--titre); color: var(--eau); margin: 16px 0 6px; }
+.article {
+  display: flex; align-items: center; gap: 8px; background: var(--carte); border: 1px solid var(--bord);
+  border-radius: 12px; padding: 8px 10px 8px 12px; margin-bottom: 8px; box-shadow: var(--ombre);
+}
+.article label { flex: 1; display: flex; gap: 10px; align-items: center; font-weight: 500; margin: 0; }
+.article input { width: 20px; height: 20px; accent-color: var(--vert); flex-shrink: 0; }
+.article.fait span { text-decoration: line-through; color: var(--lagon-clair); }
+.article .puce { cursor: pointer; color: var(--eau); font-weight: 600; white-space: nowrap; }
+.article .puce.moi { background: var(--corail); border-color: var(--corail); color: #fff; }
+.panier { margin-top: 20px; }
+.panier > summary { cursor: pointer; font-weight: 700; color: var(--eau); padding: 8px 0; }
