@@ -22,6 +22,25 @@ let enRecuperation = false; // lien « mot de passe oublié » ouvert
 
 
 // ---------- Écrans ----------
+// Classement général du séjour (points calculés par la base : sql/011_classement.sql).
+function carteClassement(lignes, moi) {
+  if (!lignes.length) return '';
+  const detail = l => [l.missions && `${l.missions} mission${l.missions > 1 ? 's' : ''}`,
+    l.corvees && `${l.corvees} corvée${l.corvees > 1 ? 's' : ''}`,
+    l.activites && `${l.activites} activité${l.activites > 1 ? 's' : ''}`].filter(Boolean).join(' · ');
+  return `
+    <section class="carte classement">
+      <h2>🏆 Classement</h2>
+      <ol class="liste">${lignes.map((l, i) => `
+        <li class="membre${l.user_id === moi ? ' moi' : ''}">
+          <span><span class="rang">${l.points > 0 && i < 3 ? ['🥇', '🥈', '🥉'][i] : i + 1}</span> ${esc(l.prenom)}${l.user_id === moi ? ' <em>(toi)</em>' : ''}
+            ${detail(l) ? `<small class="meta">${detail(l)}</small>` : ''}</span>
+          <strong>${l.points} pts</strong>
+        </li>`).join('')}</ol>
+      <p class="meta">Mission secrète réussie : 25 pts · corvée faite : 15 pts · activité où l’on s’est inscrit : 10 pts.</p>
+    </section>`;
+}
+
 function ecranConnexion(onglet = 'connexion') {
   const inscription = onglet === 'inscription';
   app.innerHTML = `
@@ -185,9 +204,10 @@ function ecranRejoindre() {
 
 async function ecranSejour(id) {
   app.innerHTML = '<p class="chargement">Chargement du séjour…</p>';
-  const [{ data: s, error: e1 }, { data: membres, error: e2 }] = await Promise.all([
+  const [{ data: s, error: e1 }, { data: membres, error: e2 }, { data: classement }] = await Promise.all([
     sb.from('sejours').select('*').eq('id', id).maybeSingle(),
     sb.from('sejour_membres').select('user_id, prenom, role').eq('sejour_id', id).order('rejoint_le'),
+    sb.rpc('classement_points', { p_sejour: id }),
   ]);
   if (e1 || e2) { app.innerHTML = `<p class="erreur">${esc(messageErreur(e1 || e2))}</p>`; return; }
   if (!s) { toast('Ce séjour n’existe pas ou tu n’en fais pas partie.'); aller('#/'); return; }
@@ -217,6 +237,8 @@ async function ecranSejour(id) {
       <button class="lien" id="renommer">Changer mon prénom</button>
     </section>
 
+    ${carteClassement(classement || [], session.user.id)}
+
     <section class="carte">
       <h2>Le séjour</h2>
       <button class="btn" id="ouvrirPlanning">🗓️ Planning</button>
@@ -227,7 +249,7 @@ async function ecranSejour(id) {
       <button class="btn" id="ouvrirValise">🎒 Ma valise</button>
       <button class="btn" id="ouvrirMissions">🕵️ Missions secrètes</button>
       <button class="btn" id="ouvrirSondages">🗳️ Sondages</button>
-      <p class="info">Bientôt : défis, chasse au trésor, chat et souvenirs.</p>
+      <p class="info">Bientôt : chasse au trésor, chat et souvenirs.</p>
     </section>
 
     ${orga ? '<button class="btn danger" id="supprimer">Supprimer le séjour</button>'

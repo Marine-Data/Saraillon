@@ -288,3 +288,11 @@ textarea { resize: vertical; }
 .texte-legal ul { padding-left: 20px; margin: 6px 0; }
 .texte-legal a, .pied a, .info a { color: var(--eau); }
 .pied a { color: inherit; }
+
+/* ---------- Classement ---------- */
+.classement ol { padding: 0; }
+.classement .membre > span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.classement .membre small { flex-basis: 100%; padding-left: 32px; }
+.classement .rang { display: inline-block; min-width: 24px; text-align: center; font-weight: 700; color: var(--eau); }
+.classement .moi strong { color: var(--corail); }
+.classement strong { white-space: nowrap; }
