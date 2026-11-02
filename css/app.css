@@ -166,3 +166,29 @@ textarea { resize: vertical; }
 .actions-dialogue { display: flex; gap: 10px; }
 .actions-dialogue .btn { flex: 1; }
 #dlgActivite { max-height: 90vh; overflow-y: auto; }
+
+/* ---------- Dépenses ---------- */
+.sous-titre { margin-top: 18px; font-size: 1.05rem; }
+.positif { color: var(--vert); font-weight: 700; }
+.negatif { color: var(--rouge); font-weight: 700; }
+.dette { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px solid var(--bord); }
+.dette:last-child { border-bottom: 0; }
+.historique { margin-top: 24px; }
+.depense {
+  display: flex; justify-content: space-between; gap: 12px;
+  background: var(--carte); border: 1px solid var(--bord); border-left: 4px solid var(--soleil);
+  border-radius: 12px; padding: 12px 14px; margin-bottom: 10px; box-shadow: var(--ombre);
+}
+.depense.remboursement { border-left-color: var(--vert); }
+.depense .droite { display: flex; flex-direction: column; align-items: flex-end; justify-content: space-between; gap: 4px; text-align: right; }
+.montant { font: 700 1.05rem var(--titre); white-space: nowrap; }
+.partage { border: 0; padding: 0; margin: 14px 0 0; }
+.partage legend { font-weight: 600; font-size: .9rem; margin-bottom: 8px; padding: 0; }
+.part { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 6px 0; border-bottom: 1px solid var(--bord); }
+.case-part { display: flex; gap: 8px; align-items: center; font-weight: 400; margin: 0; flex: 1; }
+.case-part input { width: 20px; height: 20px; accent-color: var(--turquoise); }
+.part-egale { color: var(--eau); font-weight: 600; }
+.part-libre { width: 110px; padding: 8px 10px; text-align: right; }
+.partage[data-mode="egal"] .part-libre { display: none; }
+.partage[data-mode="libre"] .part-egale, .partage[data-mode="libre"] .case-part input { display: none; }
+#dlgDepense { max-height: 90vh; overflow-y: auto; }

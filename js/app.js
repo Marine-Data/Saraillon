@@ -4,6 +4,7 @@
 import { sb } from './supabase.js';
 import { esc, toast, dateFr, periode, messageErreur, pendant, aller, adresseRetour } from './outils.js';
 import { ecranPlanning } from './planning.js';
+import { ecranDepenses } from './depenses.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
 
@@ -210,7 +211,8 @@ async function ecranSejour(id) {
     <section class="carte">
       <h2>Le séjour</h2>
       <button class="btn" id="ouvrirPlanning">🗓️ Planning</button>
-      <p class="info">Bientôt : vie pratique, défis et jeux, chat et souvenirs.</p>
+      <button class="btn" id="ouvrirDepenses">💰 Dépenses</button>
+      <p class="info">Bientôt : courses, repas, corvées, valise, défis et jeux, chat et souvenirs.</p>
     </section>
 
     ${orga ? '<button class="btn danger" id="supprimer">Supprimer le séjour</button>'
@@ -218,6 +220,7 @@ async function ecranSejour(id) {
 
   app.querySelector('#retour').onclick = () => aller('#/');
   app.querySelector('#ouvrirPlanning').onclick = () => aller('#/sejour/' + id + '/planning');
+  app.querySelector('#ouvrirDepenses').onclick = () => aller('#/sejour/' + id + '/depenses');
   app.querySelector('#partager').onclick = async () => {
     const texte = `Rejoins le séjour « ${s.nom} » sur Planya : ${adresseRetour()} — code d’invitation : ${s.code_invitation}`;
     try {
@@ -350,6 +353,8 @@ function router() {
   const h = location.hash;
   const p = h.match(/^#\/sejour\/([0-9a-f-]{36})\/planning$/);
   if (p) return ecranPlanning(app, p[1], session);
+  const d = h.match(/^#\/sejour\/([0-9a-f-]{36})\/depenses$/);
+  if (d) return ecranDepenses(app, d[1], session);
   const m = h.match(/^#\/sejour\/([0-9a-f-]{36})$/);
   if (m) return ecranSejour(m[1]);
   if (h === '#/creer') return ecranCreer();
