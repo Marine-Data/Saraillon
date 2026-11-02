@@ -246,3 +246,12 @@ textarea { resize: vertical; }
 .article .texte-objet { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
 .article small { font-size: .8rem; margin: 0; }
 .article.fait .texte-objet { text-decoration: none; color: inherit; }
+
+/* ---------- Missions secrètes ---------- */
+.mission { border-left: 4px solid var(--corail); }
+.mission-texte { font: 600 1.1rem/1.4 var(--titre); margin: 6px 0; }
+.succes { color: var(--vert); font-weight: 700; }
+.revelation { padding: 10px 0; border-bottom: 1px solid var(--bord); }
+.revelation:last-child { border-bottom: 0; }
+.revelation p { margin: 2px 0; }
+.revelation img { display: block; max-width: 100%; border-radius: 12px; margin-top: 8px; }
