@@ -37,7 +37,7 @@ async function charger(sejourId) {
     sb.from('sejours').select('id, nom, debut, fin').eq('id', sejourId).maybeSingle(),
     sb.from('sejour_membres').select('user_id, prenom, role').eq('sejour_id', sejourId),
     sb.from('activites')
-      .select('*, activite_apporter(*), activite_inscriptions(user_id), activite_commentaires(id, user_id, texte, cree_le)')
+      .select('*, activite_apporter(*), activite_inscriptions(user_id), activite_commentaires(id, user_id, texte, cree_le), courses(id, fait)')
       .eq('sejour_id', sejourId),
   ]);
   const erreur = s.error || m.error || a.error;
@@ -107,6 +107,7 @@ export async function ecranPlanning(app, sejourId, session, { garderPosition = f
     const act = activites.find(a => a.id === id);
     const action = cible.dataset.action;
     let erreur = null;
+    if (action === 'courses') return aller(`#/sejour/${sejourId}/courses/${id}`);
     if (action === 'modifier') return ouvrirFormulaire(app, { sejourId, activite: act, listeJours, recharger });
     if (action === 'supprimer') {
       if (!confirm(`Supprimer « ${act.nom} » ?`)) return;
@@ -164,6 +165,9 @@ function carteActivite(a, { moi, orga, prenom }) {
       <p class="participants">${inscrits.map(id => `<span class="puce">${esc(prenom(id))}</span>`).join('') || '<span class="info">Personne pour l’instant.</span>'}</p>
       <button class="btn ${suisInscrit ? 'secondaire' : ''} petit" data-action="${suisInscrit ? 'desinscrire' : 'inscrire'}">
         ${suisInscrit ? 'Je ne participe plus' : 'Je participe'}</button></div>` : ''}
+    ${a.repas || a.courses?.length ? `<div class="bloc"><h4>Courses</h4>
+      <p class="info">${a.courses?.length ? `${a.courses.length} article${a.courses.length > 1 ? 's' : ''}, ${a.courses.filter(c => !c.fait).length} à acheter` : 'Aucun article pour ce repas.'}</p>
+      <button class="btn secondaire petit" data-action="courses">🛒 ${a.courses?.length ? 'Voir les courses' : 'Ajouter des courses'}</button></div>` : ''}
     <div class="bloc"><h4>Commentaires${commentaires.length ? ` (${commentaires.length})` : ''}</h4>
       ${commentaires.map(c => `<p class="commentaire"><strong>${esc(prenom(c.user_id))}</strong> ${esc(c.texte)}
         ${c.user_id === moi || orga ? `<button class="lien petit" data-action="effacer-commentaire" data-id="${c.id}" aria-label="Effacer le commentaire">✕</button>` : ''}</p>`).join('')}
