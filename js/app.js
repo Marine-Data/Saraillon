@@ -6,6 +6,7 @@ import { esc, toast, dateFr, periode, messageErreur, pendant, aller, adresseReto
 import { ecranPlanning } from './planning.js';
 import { ecranDepenses } from './depenses.js';
 import { ecranCourses } from './courses.js';
+import { ecranCorvees } from './corvees.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
 
@@ -214,7 +215,8 @@ async function ecranSejour(id) {
       <button class="btn" id="ouvrirPlanning">🗓️ Planning</button>
       <button class="btn" id="ouvrirDepenses">💰 Dépenses</button>
       <button class="btn" id="ouvrirCourses">🛒 Courses</button>
-      <p class="info">Bientôt : corvées, valise, défis et jeux, chat et souvenirs.</p>
+      <button class="btn" id="ouvrirCorvees">🧹 Corvées</button>
+      <p class="info">Bientôt : valise, défis et jeux, chat et souvenirs.</p>
     </section>
 
     ${orga ? '<button class="btn danger" id="supprimer">Supprimer le séjour</button>'
@@ -224,6 +226,7 @@ async function ecranSejour(id) {
   app.querySelector('#ouvrirPlanning').onclick = () => aller('#/sejour/' + id + '/planning');
   app.querySelector('#ouvrirDepenses').onclick = () => aller('#/sejour/' + id + '/depenses');
   app.querySelector('#ouvrirCourses').onclick = () => aller('#/sejour/' + id + '/courses');
+  app.querySelector('#ouvrirCorvees').onclick = () => aller('#/sejour/' + id + '/corvees');
   app.querySelector('#partager').onclick = async () => {
     const texte = `Rejoins le séjour « ${s.nom} » sur Planya : ${adresseRetour()} — code d’invitation : ${s.code_invitation}`;
     try {
@@ -360,6 +363,8 @@ function router() {
   if (d) return ecranDepenses(app, d[1], session);
   const c = h.match(/^#\/sejour\/([0-9a-f-]{36})\/courses(?:\/([0-9a-f-]{36}))?$/);
   if (c) return ecranCourses(app, c[1], session, { repasId: c[2] || null });
+  const v = h.match(/^#\/sejour\/([0-9a-f-]{36})\/corvees$/);
+  if (v) return ecranCorvees(app, v[1], session);
   const m = h.match(/^#\/sejour\/([0-9a-f-]{36})$/);
   if (m) return ecranSejour(m[1]);
   if (h === '#/creer') return ecranCreer();

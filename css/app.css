@@ -207,3 +207,21 @@ textarea { resize: vertical; }
 .article .puce.moi { background: var(--corail); border-color: var(--corail); color: #fff; }
 .panier { margin-top: 20px; }
 .panier > summary { cursor: pointer; font-weight: 700; color: var(--eau); padding: 8px 0; }
+
+/* ---------- Corvées ---------- */
+.jours-puces { display: flex; gap: 8px; overflow-x: auto; padding: 2px 2px 12px; margin: 0 -2px 4px; scrollbar-width: none; }
+.puce-jour {
+  flex-shrink: 0; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--bord);
+  background: var(--carte); color: var(--encre); font-weight: 600; text-transform: capitalize;
+}
+.puce-jour[aria-selected="true"] { background: var(--encre); color: var(--sable); border-color: var(--encre); }
+.corvee { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--bord); }
+.corvee:last-child { border-bottom: 0; }
+.corvee-nom { flex: 1; display: flex; gap: 10px; align-items: center; font-weight: 500; margin: 0; }
+.corvee-nom input { width: 20px; height: 20px; accent-color: var(--vert); flex-shrink: 0; }
+.corvee.fait .corvee-nom span { text-decoration: line-through; color: var(--lagon-clair); }
+.corvee select { width: auto; max-width: 45%; padding: 8px 10px; }
+.depliable > summary { cursor: pointer; font: 700 1.05rem var(--titre); }
+.depliable[open] > summary { margin-bottom: 8px; }
+.resultat-tirage { margin-top: 12px; }
+.resultat-tirage strong { color: var(--eau); }
