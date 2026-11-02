@@ -68,7 +68,9 @@ function ecranConnexion(onglet = 'connexion') {
       <p class="erreur" role="alert"></p>
       <button class="btn" type="submit">${inscription ? 'Créer mon compte' : 'Se connecter'}</button>
       ${inscription ? '' : '<button class="lien" type="button" id="oubli">Mot de passe oublié ?</button>'}
-    </form>`;
+    </form>
+    ${blocInstallation()}`;
+  brancherInstallation();
   app.querySelectorAll('[data-onglet]').forEach(b => b.onclick = () => ecranConnexion(b.dataset.onglet));
   const form = app.querySelector('#formAuth');
   form.onsubmit = e => {
@@ -140,7 +142,9 @@ async function ecranMesSejours() {
       </button></li>`).join('')}</ul>`
       : '<p class="vide">Aucun séjour pour l’instant. Crée le premier ou rejoins celui d’un ami avec son code.</p>'}
     <button class="btn" id="creer">Créer un séjour</button>
-    <button class="btn secondaire" id="rejoindre">Rejoindre avec un code</button>`;
+    <button class="btn secondaire" id="rejoindre">Rejoindre avec un code</button>
+    ${blocInstallation()}`;
+  brancherInstallation();
   app.querySelectorAll('[data-id]').forEach(b => b.onclick = () => aller('#/sejour/' + b.dataset.id));
   app.querySelector('#creer').onclick = () => aller('#/creer');
   app.querySelector('#rejoindre').onclick = () => aller('#/rejoindre');
@@ -299,6 +303,28 @@ async function ecranSejour(id) {
     toast('Séjour supprimé.'); aller('#/');
   };
 }
+
+// ---------- Installation sur le téléphone ----------
+let invitationInstall = null; // événement Android/Chrome gardé pour plus tard
+const dejaInstallee = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+const surIphone = () => /iphone|ipad|ipod/i.test(navigator.userAgent);
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); invitationInstall = e; router(); });
+window.addEventListener('appinstalled', () => { invitationInstall = null; toast('Planya est installée sur ton téléphone.'); router(); });
+function blocInstallation() {
+  if (dejaInstallee() || (!invitationInstall && !surIphone())) return '';
+  return `<section class="carte installer">
+    <h2>Installer Planya</h2>
+    <p class="info">Ajoute l’appli sur ton écran d’accueil pour l’ouvrir comme une vraie application.</p>
+    ${invitationInstall ? '<button class="btn" id="installer">Installer l’application</button>'
+      : `<ol class="etapes"><li>Touche le bouton <strong>Partager</strong> de Safari (le carré avec une flèche).</li>
+          <li>Choisis <strong>« Sur l’écran d’accueil »</strong>.</li><li>Touche <strong>Ajouter</strong>.</li></ol>`}
+  </section>`;
+}
+function brancherInstallation() {
+  const b = app.querySelector('#installer');
+  if (b) b.onclick = async () => { invitationInstall.prompt(); await invitationInstall.userChoice; invitationInstall = null; router(); };
+}
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 
 // ---------- Navigation ----------
 function router() {
