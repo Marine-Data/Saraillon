@@ -1,54 +1,16 @@
 // Planya — comptes, séjours et invitations.
 // Toutes les règles d'accès sont dans la base (sql/001_sejours.sql) : l'interface ne fait
 // qu'afficher ce que la base accepte de renvoyer à la personne connectée.
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.0/+esm';
-import { SUPABASE_URL, SUPABASE_KEY } from './config.js';
-
-const sb = createClient(SUPABASE_URL, SUPABASE_KEY);
+import { sb } from './supabase.js';
+import { esc, toast, dateFr, periode, messageErreur, pendant, aller, adresseRetour } from './outils.js';
+import { ecranPlanning } from './planning.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
-const adresseRetour = () => location.origin + location.pathname;
 
 let session = null;
 let enRecuperation = false; // lien « mot de passe oublié » ouvert
 
-// ---------- Outils ----------
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-function toast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.hidden = false;
-  clearTimeout(toast.minuteur); toast.minuteur = setTimeout(() => { t.hidden = true; }, 3500);
-}
-function dateFr(d) {
-  if (!d) return '';
-  return new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).replace(/^1 /, '1er ');
-}
-function periode(s) {
-  if (s.debut && s.fin) return `du ${dateFr(s.debut)} au ${dateFr(s.fin)}`;
-  if (s.debut) return `à partir du ${dateFr(s.debut)}`;
-  return '';
-}
-function messageErreur(e) {
-  const m = String(e?.message || e || '');
-  if (/Invalid login credentials/i.test(m)) return 'E-mail ou mot de passe incorrect.';
-  if (/Email not confirmed/i.test(m)) return 'Confirme d’abord ton adresse : clique sur le lien reçu par e-mail.';
-  if (/already registered|already been registered/i.test(m)) return 'Un compte existe déjà avec cette adresse. Connecte-toi.';
-  if (/Password should be at least/i.test(m)) return 'Le mot de passe doit faire au moins 8 caractères.';
-  if (/rate limit|too many/i.test(m)) return 'Trop d’essais d’affilée : réessaie dans quelques minutes.';
-  if (/Failed to fetch|NetworkError/i.test(m)) return 'Pas de réseau : réessaie dans un instant.';
-  return 'Une erreur est survenue : ' + m;
-}
-// Exécute une action de formulaire en désactivant le bouton pendant l'attente.
-async function pendant(form, action) {
-  const bouton = form.querySelector('button[type="submit"]');
-  const err = form.querySelector('.erreur');
-  if (err) err.textContent = '';
-  bouton.disabled = true;
-  try { await action(); }
-  catch (e) { if (err) err.textContent = messageErreur(e); else toast(messageErreur(e)); }
-  finally { bouton.disabled = false; }
-}
-const aller = route => { location.hash = route; };
+
 
 // ---------- Écrans ----------
 function ecranConnexion(onglet = 'connexion') {
@@ -246,14 +208,16 @@ async function ecranSejour(id) {
     </section>
 
     <section class="carte">
-      <h2>Bientôt dans ce séjour</h2>
-      <p class="info">Planning, défis, repas et courses, dépenses partagées, galerie de souvenirs.</p>
+      <h2>Le séjour</h2>
+      <button class="btn" id="ouvrirPlanning">🗓️ Planning</button>
+      <p class="info">Bientôt : vie pratique, défis et jeux, chat et souvenirs.</p>
     </section>
 
     ${orga ? '<button class="btn danger" id="supprimer">Supprimer le séjour</button>'
            : '<button class="btn danger" id="quitter">Quitter le séjour</button>'}`;
 
   app.querySelector('#retour').onclick = () => aller('#/');
+  app.querySelector('#ouvrirPlanning').onclick = () => aller('#/sejour/' + id + '/planning');
   app.querySelector('#partager').onclick = async () => {
     const texte = `Rejoins le séjour « ${s.nom} » sur Planya : ${adresseRetour()} — code d’invitation : ${s.code_invitation}`;
     try {
@@ -384,6 +348,8 @@ function router() {
   if (enRecuperation) return ecranNouveauMotDePasse();
   if (!session) return ecranConnexion();
   const h = location.hash;
+  const p = h.match(/^#\/sejour\/([0-9a-f-]{36})\/planning$/);
+  if (p) return ecranPlanning(app, p[1], session);
   const m = h.match(/^#\/sejour\/([0-9a-f-]{36})$/);
   if (m) return ecranSejour(m[1]);
   if (h === '#/creer') return ecranCreer();
