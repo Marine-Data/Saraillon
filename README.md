@@ -16,7 +16,7 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 4 | Courses : liste partagée, rattachée aux repas du planning, « Je m'en occupe » | ✅ |
 | 5 | Corvées : liste du groupe, tirage au sort équitable du jour, échanges à la main | ✅ |
 | 6 | Voyage : fiche d'infos du séjour, « qui arrive quand », billets privés | ✅ |
-| 7 | Valise | à venir |
+| 7 | Valise : liste privée remplie avec les « choses à apporter » du planning, plus ses propres objets | ✅ |
 | 8 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
 | 9 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
 | 10 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
