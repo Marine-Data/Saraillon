@@ -15,10 +15,11 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 3 | Dépenses partagées : parts égales ou montants libres, soldes, remboursements | ✅ |
 | 4 | Courses : liste partagée, rattachée aux repas du planning, « Je m'en occupe » | ✅ |
 | 5 | Corvées : liste du groupe, tirage au sort équitable du jour, échanges à la main | ✅ |
-| 6 | Vie pratique : valise, infos voyage | à venir |
-| 7 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
-| 8 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
-| 9 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
+| 6 | Voyage : fiche d'infos du séjour, « qui arrive quand », billets privés | ✅ |
+| 7 | Valise | à venir |
+| 8 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
+| 9 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
+| 10 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
 
 Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 
@@ -30,6 +31,7 @@ Planya est la version publique de « Saraillon » : mêmes fonctions et même es
 - **Comptes justes par construction** : une dépense ne s'enregistre que si la base vérifie que la somme des parts égale le montant et que chaque personne fait partie du séjour. Montants stockés en centimes, sans arrondi.
 - **Minimisation** : un compte ne contient que l'e-mail ; le prénom est donné séjour par séjour et n'apparaît qu'aux membres de ce séjour.
 - **Suppression en cascade** : supprimer un séjour efface ses membres ; supprimer un compte efface ses appartenances.
+- **Billets privés** : les billets de train ou d'avion sont dans un espace de stockage privé, accessible à la seule personne qui les a déposés ; le groupe ne voit que les horaires. Quitter un séjour efface ses trajets et ses billets.
 - **Hébergement dans l'Union européenne** (Supabase, région Stockholm).
 - **Aucune donnée personnelle dans ce dépôt.**
 
