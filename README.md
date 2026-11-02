@@ -11,10 +11,13 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | Étape | Contenu | État |
 |---|---|---|
 | 1 | Comptes, création de séjour, invitation par code, membres | ✅ |
-| 2 | Configuration du séjour depuis l'appli : participants, planning, corvées, défis | à venir |
-| 3 | Fonctions du séjour : chat, galerie, courses, dépenses, défis | à venir |
-| 4 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
-| 5 | Mise en ligne publique | à venir |
+| 2 | Planning : activités jour par jour, choses à apporter, inscriptions, commentaires | ✅ |
+| 3 | Vie pratique : courses, repas, corvées, dépenses, valise, infos voyage | à venir |
+| 4 | Défis et jeux : défis, missions secrètes, chasse au trésor, sondages | à venir |
+| 5 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
+| 6 | Politique de confidentialité, mentions légales, suppression de compte | à venir |
+
+Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 
 ## Protection des données dès la conception
 
@@ -26,7 +29,7 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 - **Hébergement dans l'Union européenne** (Supabase, région Stockholm).
 - **Aucune donnée personnelle dans ce dépôt.**
 
-Les règles sont décrites et testées dans [`sql/001_sejours.sql`](sql/001_sejours.sql).
+Les règles sont décrites dans [`sql/`](sql/) et testées avec plusieurs comptes avant chaque mise en ligne.
 
 ## Technique
 
