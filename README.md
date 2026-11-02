@@ -20,8 +20,9 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 8 | Missions secrètes : une mission par jour tirée au sort par la base, révélée à sa cible le dernier jour | ✅ |
 | 9 | Sondages : votes anonymes (anonymes aussi dans la base) ou visibles, clôture | ✅ |
 | 10 | Classement général en points (missions, corvées, activités), calculé par la base | ✅ |
-| 11 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
-| 12 | Politique de confidentialité, mentions légales, téléchargement de ses données, suppression de compte | ✅ |
+| 11 | Fil d'actu : événements écrits par la base (impossibles à falsifier, sans secret), publications, likes, commentaires | ✅ |
+| 12 | Chat du groupe, messages privés, notifications | à venir |
+| 13 | Politique de confidentialité, mentions légales, téléchargement de ses données, suppression de compte | ✅ |
 
 Planya est la version publique de « Saraillon » : mêmes fonctions et même esprit, réécrites module par module pour fonctionner avec n'importe quel groupe.
 
