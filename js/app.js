@@ -8,6 +8,7 @@ import { ecranDepenses } from './depenses.js';
 import { ecranCourses } from './courses.js';
 import { ecranCorvees } from './corvees.js';
 import { ecranVoyage } from './voyage.js';
+import { ecranValise } from './valise.js';
 const app = document.getElementById('app');
 const btnDeconnexion = document.getElementById('deconnexion');
 
@@ -218,7 +219,8 @@ async function ecranSejour(id) {
       <button class="btn" id="ouvrirCourses">🛒 Courses</button>
       <button class="btn" id="ouvrirCorvees">🧹 Corvées</button>
       <button class="btn" id="ouvrirVoyage">🧳 Voyage et infos</button>
-      <p class="info">Bientôt : valise, défis et jeux, chat et souvenirs.</p>
+      <button class="btn" id="ouvrirValise">🎒 Ma valise</button>
+      <p class="info">Bientôt : défis et jeux, chat et souvenirs.</p>
     </section>
 
     ${orga ? '<button class="btn danger" id="supprimer">Supprimer le séjour</button>'
@@ -230,6 +232,7 @@ async function ecranSejour(id) {
   app.querySelector('#ouvrirCourses').onclick = () => aller('#/sejour/' + id + '/courses');
   app.querySelector('#ouvrirCorvees').onclick = () => aller('#/sejour/' + id + '/corvees');
   app.querySelector('#ouvrirVoyage').onclick = () => aller('#/sejour/' + id + '/voyage');
+  app.querySelector('#ouvrirValise').onclick = () => aller('#/sejour/' + id + '/valise');
   app.querySelector('#partager').onclick = async () => {
     const texte = `Rejoins le séjour « ${s.nom} » sur Planya : ${adresseRetour()} — code d’invitation : ${s.code_invitation}`;
     try {
@@ -370,6 +373,8 @@ function router() {
   if (v) return ecranCorvees(app, v[1], session);
   const y = h.match(/^#\/sejour\/([0-9a-f-]{36})\/voyage$/);
   if (y) return ecranVoyage(app, y[1], session);
+  const w = h.match(/^#\/sejour\/([0-9a-f-]{36})\/valise$/);
+  if (w) return ecranValise(app, w[1], session);
   const m = h.match(/^#\/sejour\/([0-9a-f-]{36})$/);
   if (m) return ecranSejour(m[1]);
   if (h === '#/creer') return ecranCreer();

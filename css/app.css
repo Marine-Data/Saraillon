@@ -238,3 +238,11 @@ textarea { resize: vertical; }
 .mon-trajet legend { font: 700 1.05rem var(--titre); padding: 0; }
 .mon-trajet .info { margin: 2px 0 0; }
 .depot { text-align: center; cursor: pointer; }
+
+/* ---------- Valise ---------- */
+.progression { text-align: center; }
+.barre { height: 8px; border-radius: 4px; background: var(--sable-creux); overflow: hidden; margin-top: 8px; }
+.barre span { display: block; height: 100%; background: var(--soleil); transition: width .4s ease; }
+.article .texte-objet { display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+.article small { font-size: .8rem; margin: 0; }
+.article.fait .texte-objet { text-decoration: none; color: inherit; }
