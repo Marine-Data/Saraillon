@@ -10,7 +10,6 @@ const MOMENTS = [
   ['apres-midi', 'Après-midi'], ['soir', 'Soir'],
 ];
 const REPAS = [['petit-dejeuner', 'Petit-déjeuner'], ['dejeuner', 'Déjeuner'], ['diner', 'Dîner'], ['apero', 'Apéro']];
-const EMOJIS = ['🏖️', '🌊', '⛵', '🥾', '🏊', '🚴', '🍽️', '🍹', '🛒', '🎉', '🏛️', '🚗', '✈️', '🚉', '🏠', '🌙'];
 const libelle = (liste, cle) => (liste.find(([k]) => k === cle) || [, ''])[1];
 const RANG_MOMENT = { journee: 0, matin: 1, midi: 2, 'apres-midi': 3, soir: 4 };
 
@@ -152,7 +151,6 @@ function carteActivite(a, { moi, orga, prenom }) {
   return `
   <article class="activite" data-activite="${a.id}">
     <header>
-      <span class="emoji" aria-hidden="true">${esc(a.emoji || '📌')}</span>
       <div>
         <h3>${esc(a.nom)}</h3>
         <p class="meta">${esc([quand, a.lieu].filter(Boolean).join(' · '))}</p>
@@ -184,7 +182,7 @@ function carteActivite(a, { moi, orga, prenom }) {
 
 // ---------- Formulaire d'ajout / modification ----------
 function ouvrirFormulaire(app, { sejourId, activite = null, jour, listeJours, recharger }) {
-  const a = activite || { jour, moment: '', heure: '', nom: '', emoji: '', lieu: '', repas: '', notes: '', inscription_ouverte: false, activite_apporter: [] };
+  const a = activite || { jour, moment: '', heure: '', nom: '', lieu: '', repas: '', notes: '', inscription_ouverte: false, activite_apporter: [] };
   const dlg = app.querySelector('#dlgActivite');
   const apporterTexte = [...a.activite_apporter].sort((x, y) => x.ordre - y.ordre).map(x => x.texte).join('\n');
   dlg.innerHTML = `
@@ -192,10 +190,6 @@ function ouvrirFormulaire(app, { sejourId, activite = null, jour, listeJours, re
       <h2>${activite ? 'Modifier l’activité' : 'Nouvelle activité'}</h2>
       <label for="fNom">Nom</label>
       <input id="fNom" name="nom" maxlength="120" required value="${esc(a.nom)}" placeholder="Ex. : Plage de l’Almanarre">
-      <label>Emoji</label>
-      <div class="emojis" role="radiogroup">${EMOJIS.map(e => `
-        <button type="button" class="emoji-choix" aria-pressed="${a.emoji === e}" data-emoji="${e}">${e}</button>`).join('')}</div>
-      <input type="hidden" name="emoji" value="${esc(a.emoji || '')}">
       <div class="deux">
         <div><label for="fJour">Jour</label>
           <input id="fJour" name="jour" type="date" required value="${esc(a.jour)}" list="joursSejour"></div>
@@ -221,19 +215,13 @@ function ouvrirFormulaire(app, { sejourId, activite = null, jour, listeJours, re
       </div>
     </form>`;
   const form = dlg.querySelector('form');
-  dlg.querySelectorAll('[data-emoji]').forEach(b => b.onclick = () => {
-    const actif = b.getAttribute('aria-pressed') === 'true';
-    dlg.querySelectorAll('[data-emoji]').forEach(x => x.setAttribute('aria-pressed', 'false'));
-    b.setAttribute('aria-pressed', String(!actif));
-    form.emoji.value = actif ? '' : b.dataset.emoji;
-  });
   dlg.querySelector('#annulerActivite').onclick = () => dlg.close();
   form.onsubmit = e => {
     e.preventDefault();
     const v = k => form[k].value.trim();
     if (!v('nom') || !v('jour')) { form.querySelector('.erreur').textContent = 'Le nom et le jour sont obligatoires.'; return; }
     const champs = {
-      nom: v('nom'), emoji: v('emoji') || null, jour: v('jour'), heure: v('heure') || null,
+      nom: v('nom'), jour: v('jour'), heure: v('heure') || null,
       moment: v('moment') || null, lieu: v('lieu') || null, repas: v('repas') || null,
       notes: v('notes') || null, inscription_ouverte: form.inscription.checked,
     };
