@@ -19,7 +19,7 @@ Le projet est né de « Saraillon », une application faite pour un séjour rée
 | 7 | Valise : liste privée remplie avec les « choses à apporter » du planning, plus ses propres objets | ✅ |
 | 8 | Missions secrètes : une mission par jour tirée au sort par la base, révélée à sa cible le dernier jour | ✅ |
 | 9 | Sondages : votes anonymes (anonymes aussi dans la base) ou visibles, clôture | ✅ |
-| 10 | Défis et jeux : défis, chasse au trésor | à venir |
+| 10 | Classement général en points (missions, corvées, activités), calculé par la base | ✅ |
 | 11 | Social et souvenirs : chat, messages privés, fil d'actu, galerie, notifications | à venir |
 | 12 | Politique de confidentialité, mentions légales, téléchargement de ses données, suppression de compte | ✅ |
 
