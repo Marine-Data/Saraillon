@@ -306,6 +306,7 @@ async function ecranSejour(id) {
 // sinon on affiche la marche à suivre adaptée au navigateur détecté.
 let invitationInstall = null;
 const btnInstaller = document.getElementById('installer');
+const barreAppli = document.getElementById('barreAppli');
 const dlgInstall = document.getElementById('dlgInstall');
 const dejaInstallee = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
 
@@ -326,13 +327,15 @@ function navigateur() {
 }
 
 const ETAPES = {
-  'ios-safari': ['Touche le bouton <strong>Partager</strong> (le carré avec une flèche vers le haut), en bas de l’écran.',
+  'ios-safari': ['Ouvre ce lien dans <strong>Safari</strong> (depuis WhatsApp : <strong>⋯</strong> puis « Ouvrir dans Safari »).',
+    'Touche le bouton <strong>Partager</strong> (le carré avec une flèche vers le haut), en bas de l’écran.',
     'Descends et choisis <strong>« Sur l’écran d’accueil »</strong>.', 'Touche <strong>Ajouter</strong>.'],
   'ios-autre': ['Touche le bouton <strong>Partager</strong> (le carré avec une flèche), dans la barre d’adresse ou le menu.',
     'Choisis <strong>« Sur l’écran d’accueil »</strong>.', 'Touche <strong>Ajouter</strong>. Si l’option n’existe pas, ouvre Planya dans <strong>Safari</strong>.'],
-  'android-chrome': ['Touche le menu <strong>⋮</strong> en haut à droite.',
+  'android-chrome': ['Ouvre ce lien dans <strong>Chrome</strong> (depuis WhatsApp : <strong>⋮</strong> puis « Ouvrir dans Chrome »).',
+    'Touche le menu <strong>⋮</strong> en haut à droite.',
     'Choisis <strong>« Installer l’application »</strong> ou <strong>« Ajouter à l’écran d’accueil »</strong>.',
-    'Si tu ne vois ni l’un ni l’autre, choisis d’abord <strong>« Ouvrir dans Chrome »</strong>, puis recommence.'],
+    'Ouvre ensuite <strong>Planya</strong> depuis ton écran d’accueil.'],
   'android-firefox': ['Touche le menu <strong>⋮</strong> (en haut ou en bas à droite).',
     'Choisis <strong>« Ajouter à l’écran d’accueil »</strong> ou <strong>« Installer »</strong>.', 'Confirme.'],
   'android-samsung': ['Touche le menu <strong>≡</strong> en bas à droite.',
@@ -348,7 +351,7 @@ const ETAPES = {
 };
 
 function afficherInstallation() {
-  btnInstaller.hidden = dejaInstallee();
+  barreAppli.hidden = dejaInstallee();
 }
 function ouvrirInstructions() {
   const nav = navigateur();
