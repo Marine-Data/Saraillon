@@ -21,11 +21,11 @@ export function pageMentions(app, session) {
       <p>Planya est un projet personnel et non commercial, édité par Marine Zinzen, particulier.<br>
         Contact : ${contact()}<br>Directrice de la publication : Marine Zinzen.</p>
       <h2>Hébergement du site</h2>
-      <p>Netlify, Inc., 101 2nd Street, San Francisco, CA 94105, États-Unis.</p>
+      <p>GitHub, Inc. (GitHub Pages), 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
       <h2>Hébergement des données</h2>
       <p>Supabase (base de données, comptes et fichiers), serveurs situés dans l’Union européenne (région Stockholm, Suède).</p>
       <h2>Code source</h2>
-      <p>Le code de Planya est public : <a href="https://github.com/Marine-Data/Saraillon" target="_blank" rel="noopener">github.com/Marine-Data/Saraillon</a>.
+      <p>Le code de Planya est public : <a href="https://github.com/Marine-Data/planya" target="_blank" rel="noopener">github.com/Marine-Data/planya</a>.
         Polices Inter et Josefin Sans sous licence SIL Open Font License ; bibliothèque supabase-js sous licence MIT.</p>
       <p class="meta">Mise à jour : ${MAJ}.</p>
     </article>`;
@@ -61,7 +61,7 @@ export function pageConfidentialite(app, session) {
         <li><strong>Vous seul ou seule</strong> voyez votre valise, vos billets et votre mission secrète du jour. Les missions qui vous visaient
           vous sont révélées le dernier jour du séjour. Dans un sondage anonyme, personne ne peut savoir ce que vous avez voté.</li>
         <li><strong>Les prestataires techniques</strong>, qui hébergent sans exploiter : Supabase (base de données et fichiers, dans l’Union européenne),
-          Netlify (site, États-Unis, adhérent au cadre de protection des données UE–États-Unis) et Brevo (envoi des e-mails de connexion, France).</li>
+          GitHub Pages (site, États-Unis, adhérent au cadre de protection des données UE–États-Unis) et Brevo (envoi des e-mails de connexion, France).</li>
         <li><strong>Les notifications</strong>, si vous les activez, passent par le service de notification de votre navigateur
           (Google, Apple ou Mozilla). Leur contenu est chiffré : ces services ne peuvent pas le lire. Une notification n’est pas conservée
           une fois envoyée, et vous choisissez dans <a href="#/compte">Mon compte</a> ce que vous recevez.</li>
